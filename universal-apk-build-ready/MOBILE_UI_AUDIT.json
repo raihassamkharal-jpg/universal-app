@@ -1,0 +1,1061 @@
+{
+  "project_overview": {
+    "project_name": "Universal",
+    "description": "Username-based real-time communication platform featuring 1-on-1 chats, WebRTC audio/video calls, 24h ephemeral status stories, social feed, cloud drive, message capsule, and QR ID cards.",
+    "framework": "React 19 + TypeScript + Vite 6 + Tailwind CSS v4",
+    "icon_library": "lucide-react (v0.546.0)",
+    "audit_scope": "Complete Mobile UI Audit & Interface Model across all viewports (320px to 1366px)",
+    "audit_date": "2026-10-09",
+    "status": "INSPECTION_ONLY"
+  },
+  "screens": [
+    {
+      "id": "screen_auth",
+      "name": "Authentication Modal (Login / Register)",
+      "route_or_trigger": "Header Auth buttons, Landing Page CTA, or unauthenticated session",
+      "source_file": "src/components/auth/AuthModal.tsx",
+      "layout_type": "Centered modal dialog with overlay (max-w-md w-full)",
+      "mobile_behavior": "Full-width on small screens with px-4 container padding; scrollable if viewport height < 600px",
+      "components": ["AuthModal"],
+      "interactive_controls": [
+        "Mode toggle tabs (Log In / Register)",
+        "Email input",
+        "Password input with Eye/EyeOff toggle",
+        "Username input (register mode)",
+        "Display name input (register mode)",
+        "Confirm password input (register mode)",
+        "Sign In / Create Account submit button",
+        "Continue with Google OAuth button",
+        "Try Demo Account instant buttons (Alex Rivera, Sarah Chen)",
+        "Privacy policy link",
+        "Modal close button (X)"
+      ]
+    },
+    {
+      "id": "screen_landing",
+      "name": "Landing Page (Public / Unauthenticated)",
+      "route_or_trigger": "Rendered in <main> when user session is null",
+      "source_file": "src/components/landing/LandingPage.tsx",
+      "layout_type": "Vertical marketing flow (Hero, Features Grid, Mockup, Security trust markers, Footer)",
+      "mobile_behavior": "Single-column stacked layout; hero buttons stack on small viewports",
+      "components": ["LandingPage", "Header"],
+      "interactive_controls": [
+        "Get Started Free CTA button -> opens register modal",
+        "Log In secondary button -> opens login modal",
+        "Privacy Policy footer link -> opens privacy modal"
+      ]
+    },
+    {
+      "id": "screen_header_global",
+      "name": "Top Application Header",
+      "route_or_trigger": "Sticky top bar present on all views (height: h-16 / 64px)",
+      "source_file": "src/components/layout/Header.tsx",
+      "layout_type": "Three-zone horizontal flex bar (Brand | Nav Tabs | Actions & Profile)",
+      "mobile_behavior": "Compact logo; navigation tabs shrink horizontally or duplicate mobile bottom bar; action icons compress",
+      "components": ["Header", "NotificationBell"],
+      "interactive_controls": [
+        "Universal logo/wordmark button -> resets to 'chats' tab",
+        "Navigation Hub tabs (Chats, Calls, Social, Drive, Capsule)",
+        "Global Search icon button -> opens GlobalSearchModal",
+        "Universal QR ID Card icon button -> opens UniversalIdCardModal",
+        "Notification Bell button -> toggles Notification dropdown",
+        "Settings icon button -> opens SettingsModal",
+        "User Profile Avatar button -> opens UserProfileModal",
+        "Logout icon button -> triggers signOut()"
+      ]
+    },
+    {
+      "id": "screen_bottom_nav_mobile",
+      "name": "Mobile Bottom Navigation Bar",
+      "route_or_trigger": "Fixed to bottom on mobile (<768px / md:hidden) when user is authenticated",
+      "source_file": "src/App.tsx",
+      "layout_type": "Fixed bottom bar (h-16 / 64px, border-t, backdrop-blur, 5 tab buttons)",
+      "mobile_behavior": "Strictly mobile-only (md:hidden). Stays visible even when inside a chat conversation unless hidden",
+      "components": ["AppContent"],
+      "interactive_controls": [
+        "Chats tab button (MessageSquare)",
+        "Calls tab button (Phone)",
+        "Social tab button (Share2)",
+        "Drive tab button (HardDrive)",
+        "Capsule tab button (Bookmark)"
+      ]
+    },
+    {
+      "id": "screen_chat_list",
+      "name": "Conversation List & Stories Tray",
+      "route_or_trigger": "Active when activeTab === 'chats' and no chat is selected (or sidebar on desktop)",
+      "source_file": "src/components/chat/ConversationList.tsx",
+      "layout_type": "Vertical scroll list with top search bar and horizontal StatusTray",
+      "mobile_behavior": "Takes full screen (w-full) on mobile. Hidden when selectedConversationId is active (hidden md:flex)",
+      "components": ["ConversationList", "StatusTray"],
+      "interactive_controls": [
+        "Search conversations input (Search)",
+        "Start new conversation button (Plus)",
+        "My Status story circle + Add Plus button",
+        "Peer status story circles (StatusTray)",
+        "Conversation list items (click to open chat)",
+        "Conversation 3-dots hover context menu (Pin, Mute, Archive)"
+      ]
+    },
+    {
+      "id": "screen_chat_area",
+      "name": "Individual Chat Screen & Message Area",
+      "route_or_trigger": "Active when selectedConversationId is set",
+      "source_file": "src/components/chat/ChatArea.tsx",
+      "layout_type": "Full viewport height flex column (Chat Header -> Message Scroll List -> Input Composer)",
+      "mobile_behavior": "Fills 100% width and height on mobile. Features Back button (<ArrowLeft>) to return to chat list",
+      "components": [
+        "ChatArea",
+        "MessageItem",
+        "VoiceRecorder",
+        "AudioPlayer",
+        "StickerGifPicker",
+        "LightboxModal",
+        "MediaGalleryModal"
+      ],
+      "interactive_controls": [
+        "Mobile back button (ArrowLeft)",
+        "Peer user profile header button (Avatar, name, username, presence)",
+        "Start Audio Call button (Phone)",
+        "Start Video Call button (Video)",
+        "In-chat search toggle (Search - desktop only; in overflow on mobile)",
+        "Shared media drawer button (FolderOpen - desktop only; in overflow on mobile)",
+        "Mobile more options button (MoreVertical)",
+        "Mobile overflow dropdown (Search, Media, Profile)",
+        "In-chat search input bar + close button",
+        "Message bubble link clicks",
+        "Message media preview click -> opens LightboxModal",
+        "Message audio play/pause toggle",
+        "Message retry send button (for failed messages)",
+        "Message hover/context quick emoji reaction",
+        "Message hover/context more menu (Reply, Copy, Edit, Delete for me, Delete for everyone)",
+        "Replying quote dismiss button (X)",
+        "Editing banner cancel button",
+        "Pending attachment thumbnail remove button (X)",
+        "Paperclip file attachment button",
+        "Smile emoji/sticker/GIF popover button",
+        "Message text auto-resizing textarea",
+        "Send message button (Send) or Voice record button (Mic)",
+        "Save edit message button (Check)",
+        "Voice recorder controls (Discard Trash, Stop Square, Play/Pause Preview, Send Voice)"
+      ]
+    },
+    {
+      "id": "screen_calling_modal",
+      "name": "Active & Incoming WebRTC Call Modal",
+      "route_or_trigger": "Triggered by callManager subscription (status: ringing | calling | connected | ended)",
+      "source_file": "src/components/calling/CallModal.tsx",
+      "layout_type": "Fullscreen fixed overlay (fixed inset-0 z-50 bg-neutral-950)",
+      "mobile_behavior": "Covers entire mobile viewport; PiP local camera in bottom-right corner",
+      "components": ["CallModal"],
+      "interactive_controls": [
+        "Incoming call Accept button (Phone / Video emerald pulse)",
+        "Incoming call Decline button (PhoneOff rose)",
+        "Fullscreen toggle button (Maximize2 / Minimize2)",
+        "Autoplay blocked unmute button (VolumeX)",
+        "Mute/Unmute microphone button (Mic / MicOff)",
+        "Toggle camera button (Video / VideoOff)",
+        "End call button (PhoneOff)"
+      ]
+    },
+    {
+      "id": "screen_call_history",
+      "name": "Call History & Logs View",
+      "route_or_trigger": "activeTab === 'calls'",
+      "source_file": "src/components/calling/CallHistoryView.tsx",
+      "layout_type": "Full-height flex column (Header -> Filter Tabs & Search -> Log List)",
+      "mobile_behavior": "Filter tabs scroll horizontally; action buttons compress to icon-only",
+      "components": ["CallHistoryView"],
+      "interactive_controls": [
+        "Call Settings & Audio button (Sliders)",
+        "New Call button (Plus)",
+        "Filter pills (All Calls, Missed, Audio, Video)",
+        "Search call logs input",
+        "Direct Call-back audio button (Phone)",
+        "Direct Call-back video button (Video)"
+      ]
+    },
+    {
+      "id": "screen_social_feed",
+      "name": "Social Feed & Community Board",
+      "route_or_trigger": "activeTab === 'social'",
+      "source_file": "src/components/social/SocialFeedView.tsx",
+      "layout_type": "Scrollable feed container (max-w-2xl mx-auto) with post composer at top",
+      "mobile_behavior": "Full-width cards on mobile with px-4 margins",
+      "components": ["SocialFeedView"],
+      "interactive_controls": [
+        "Post composer textarea",
+        "Attach photo button (ImageIcon)",
+        "Create poll toggle button (BarChart2)",
+        "Add poll option button (+ Add Option)",
+        "Post submit button (Send)",
+        "Author profile click",
+        "Follow / Unfollow toggle button (UserPlus / UserCheck)",
+        "Delete post button (Trash2 - author only)",
+        "Poll voting options (click to vote)",
+        "Like post button (Heart)",
+        "Toggle comments button (MessageCircle)",
+        "Share post button (Share2)",
+        "Add comment input & submit button (Send)",
+        "Reply to comment button (Reply)",
+        "Delete comment button (Trash2 - author only)"
+      ]
+    },
+    {
+      "id": "screen_universal_drive",
+      "name": "Universal Drive Cloud Storage",
+      "route_or_trigger": "activeTab === 'drive'",
+      "source_file": "src/components/drive/UniversalDriveView.tsx",
+      "layout_type": "Header with storage quota -> Folder filter bar -> File grid / list",
+      "mobile_behavior": "Folder pills scroll horizontally; file cards format cleanly",
+      "components": ["UniversalDriveView"],
+      "interactive_controls": [
+        "Upload File button (Upload)",
+        "Folder filter pills (All Files, General, custom folders)",
+        "Search files input (Search)",
+        "Download file button (Download)",
+        "Delete file button (Trash2)"
+      ]
+    },
+    {
+      "id": "screen_message_capsule",
+      "name": "Message Capsule & Memory Board",
+      "route_or_trigger": "activeTab === 'capsule'",
+      "source_file": "src/components/capsule/MessageCapsuleView.tsx",
+      "layout_type": "Header -> Category filter bar -> Capsule cards list",
+      "mobile_behavior": "Single-column cards; category buttons scroll horizontally",
+      "components": ["MessageCapsuleView"],
+      "interactive_controls": [
+        "New Capsule Item button (Plus)",
+        "Category filter pills (All, Notes, Reminders, Links, Media)",
+        "Capsule creation form (Title, Category, Details)",
+        "Save / Cancel creation buttons",
+        "Delete capsule button (Trash2)"
+      ]
+    },
+    {
+      "id": "screen_settings_modal",
+      "name": "Settings & Preferences Modal",
+      "route_or_trigger": "Header settings button or CallHistory settings button",
+      "source_file": "src/components/settings/SettingsModal.tsx",
+      "layout_type": "Large modal dialog with left category tab navigation and right content area",
+      "mobile_behavior": "Navigation tabs wrap into a top horizontal scrolling bar; content pane scrolls below",
+      "components": ["SettingsModal"],
+      "interactive_controls": [
+        "Category tabs (Account, Calls & Audio, Privacy, Data & Policy, Notifications, Appearance, Language, Blocked Users)",
+        "Modal close button (X)",
+        "Account: Display name, bio inputs, save button",
+        "Calls: Custom ringtone audio upload, preview Play/Pause, restore default",
+        "Calls: Custom ringback tone audio upload, preview Play/Pause, restore default",
+        "Calls: Test microphone toggle, live audio volume VU meter",
+        "Calls: Test camera video preview toggle",
+        "Privacy: Read receipts toggle, typing indicator toggle, call privacy dropdown, online status dropdown",
+        "Data & Policy: Download personal data archive button (Download), Permanently delete account button (Trash2)",
+        "Notifications: Enable browser notifications button, in-app chime sound toggle",
+        "Appearance: Theme selector (System, Light, Dark)",
+        "Language: Language selector (English, Spanish, French, German, Arabic, Urdu)",
+        "Blocked Users: List of blocked contacts with Unblock button"
+      ]
+    },
+    {
+      "id": "screen_global_search_modal",
+      "name": "Global Search Modal",
+      "route_or_trigger": "Header search button or Chat empty state search button",
+      "source_file": "src/components/search/GlobalSearchModal.tsx",
+      "layout_type": "Centered search modal (max-w-2xl) with auto-focused input and categorized results",
+      "mobile_behavior": "Full-width on mobile with top padding (pt-16)",
+      "components": ["GlobalSearchModal"],
+      "interactive_controls": [
+        "Search input query bar",
+        "Close search button (X)",
+        "User search results -> click to select user and start conversation",
+        "Message search results -> click to view",
+        "Post search results -> click to view",
+        "File search results -> click to view"
+      ]
+    },
+    {
+      "id": "screen_user_search_modal",
+      "name": "User Search Modal (New Chat Flow)",
+      "route_or_trigger": "ConversationList Plus button or ChatArea empty state button",
+      "source_file": "src/components/chat/UserSearchModal.tsx",
+      "layout_type": "Modal dialog with handle search input and results list",
+      "mobile_behavior": "Fills available mobile modal width with px-4 container margin",
+      "components": ["UserSearchModal"],
+      "interactive_controls": [
+        "Username search input (@handle)",
+        "Close button (X)",
+        "User item 'Start Chat' button (MessageSquare) -> opens conversation"
+      ]
+    },
+    {
+      "id": "screen_universal_id_card",
+      "name": "Universal QR ID Card Modal",
+      "route_or_trigger": "Header QrCode icon button",
+      "source_file": "src/components/qr/UniversalIdCardModal.tsx",
+      "layout_type": "Centered modal card displaying user identity and generated SVG QR code",
+      "mobile_behavior": "Compact card (max-w-sm w-full)",
+      "components": ["UniversalIdCardModal"],
+      "interactive_controls": [
+        "Close button (X)",
+        "Copy Shareable Profile Link button (Copy / Check)",
+        "Share Profile button (Share2)"
+      ]
+    },
+    {
+      "id": "screen_user_profile_modal",
+      "name": "User Profile Modal (View & Edit)",
+      "route_or_trigger": "Header profile button, ChatArea partner name click, or social feed author click",
+      "source_file": "src/components/chat/UserProfileModal.tsx",
+      "layout_type": "Centered modal dialog (max-w-md w-full)",
+      "mobile_behavior": "Full width with margin padding; editable if viewing self",
+      "components": ["UserProfileModal"],
+      "interactive_controls": [
+        "Close button (X)",
+        "Avatar upload button (Camera / Upload)",
+        "Display name input (self)",
+        "Username input (self)",
+        "Status / Bio input (self)",
+        "Save Profile changes button"
+      ]
+    },
+    {
+      "id": "screen_privacy_policy_modal",
+      "name": "Privacy Policy & Data Security Modal",
+      "route_or_trigger": "Landing page, Auth modal, or Settings modal",
+      "source_file": "src/components/privacy/PrivacyPolicyModal.tsx",
+      "layout_type": "Long-form readable modal dialog (max-w-2xl max-h-[85vh])",
+      "mobile_behavior": "Scrollable text content with sticky header and footer close button",
+      "components": ["PrivacyPolicyModal"],
+      "interactive_controls": [
+        "Close button (X)",
+        "Manage My Data in Settings button (opens settings)",
+        "Understood / Close button"
+      ]
+    },
+    {
+      "id": "screen_status_viewer_modal",
+      "name": "24h Ephemeral Status Viewer Modal",
+      "route_or_trigger": "Clicking a story circle in StatusTray",
+      "source_file": "src/components/status/StatusViewerModal.tsx",
+      "layout_type": "Fullscreen story player with timed progress bars and navigation buttons",
+      "mobile_behavior": "Covers mobile screen; tap left/right to navigate stories",
+      "components": ["StatusViewerModal"],
+      "interactive_controls": [
+        "Close story button (X)",
+        "Previous story button (ChevronLeft)",
+        "Next story button (ChevronRight)",
+        "Delete my status button (Trash2)"
+      ]
+    },
+    {
+      "id": "screen_create_status_modal",
+      "name": "Create Ephemeral Status Modal",
+      "route_or_trigger": "StatusTray plus icon button",
+      "source_file": "src/components/status/CreateStatusModal.tsx",
+      "layout_type": "Centered modal with color picker and text / media input",
+      "mobile_behavior": "Compact dialog",
+      "components": ["CreateStatusModal"],
+      "interactive_controls": [
+        "Status text input",
+        "Color background palette selector",
+        "Image upload button (ImageIcon)",
+        "Post Status 24h button",
+        "Cancel button (X)"
+      ]
+    }
+  ],
+  "icon_inventory": [
+    {
+      "component": "App",
+      "source_file": "src/App.tsx",
+      "icon_name": "Loader2",
+      "library": "lucide-react",
+      "rendered_element": "Connecting loader indicator",
+      "expected_mobile_visibility": "Visible while auth session initializes",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "App (Mobile Bottom Bar)",
+      "source_file": "src/App.tsx",
+      "icon_name": "MessageSquare",
+      "library": "lucide-react",
+      "rendered_element": "Bottom bar Chats tab button",
+      "expected_mobile_visibility": "Visible on mobile (<768px)",
+      "actual_status": "CLIPPED_BY_OVERLAPPING_VIEWPORT",
+      "issue_notes": "When in ChatArea on mobile, the bottom bar remains rendered in DOM and can overlap with the ChatArea input dock or cause viewport height calculation conflicts (h-screen vs flex-1)."
+    },
+    {
+      "component": "App (Mobile Bottom Bar)",
+      "source_file": "src/App.tsx",
+      "icon_name": "Phone",
+      "library": "lucide-react",
+      "rendered_element": "Bottom bar Calls tab button",
+      "expected_mobile_visibility": "Visible on mobile (<768px)",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "App (Mobile Bottom Bar)",
+      "source_file": "src/App.tsx",
+      "icon_name": "Share2",
+      "library": "lucide-react",
+      "rendered_element": "Bottom bar Social tab button",
+      "expected_mobile_visibility": "Visible on mobile (<768px)",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "App (Mobile Bottom Bar)",
+      "source_file": "src/App.tsx",
+      "icon_name": "HardDrive",
+      "library": "lucide-react",
+      "rendered_element": "Bottom bar Drive tab button",
+      "expected_mobile_visibility": "Visible on mobile (<768px)",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "App (Mobile Bottom Bar)",
+      "source_file": "src/App.tsx",
+      "icon_name": "Bookmark",
+      "library": "lucide-react",
+      "rendered_element": "Bottom bar Capsule tab button",
+      "expected_mobile_visibility": "Visible on mobile (<768px)",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "Header",
+      "source_file": "src/components/layout/Header.tsx",
+      "icon_name": "Search",
+      "library": "lucide-react",
+      "rendered_element": "Global search trigger button",
+      "expected_mobile_visibility": "Visible in header right action zone",
+      "actual_status": "CROWDED_HORIZONTAL_OVERFLOW_RISK",
+      "issue_notes": "On viewports 320px–360px, Header contains Logo + Nav tabs (max-w-[280px]) + Search + QrCode + Bell + Settings + Avatar + Logout. Total width exceeds 360px, causing Header actions to be clipped or pushed offscreen."
+    },
+    {
+      "component": "Header",
+      "source_file": "src/components/layout/Header.tsx",
+      "icon_name": "QrCode",
+      "library": "lucide-react",
+      "rendered_element": "Universal QR ID Card trigger button",
+      "expected_mobile_visibility": "Visible in header right action zone",
+      "actual_status": "CROWDED_HORIZONTAL_OVERFLOW_RISK",
+      "issue_notes": "On viewports <=375px, crowded out by middle nav tab bar and other action buttons."
+    },
+    {
+      "component": "Header",
+      "source_file": "src/components/layout/Header.tsx",
+      "icon_name": "Bell (NotificationBell)",
+      "library": "lucide-react",
+      "rendered_element": "Notification bell button",
+      "expected_mobile_visibility": "Visible in header right action zone",
+      "actual_status": "CROWDED_HORIZONTAL_OVERFLOW_RISK",
+      "issue_notes": "Bell dropdown (w-80 / 320px) overflows viewport width on 320px screens when opened from right-aligned icon."
+    },
+    {
+      "component": "Header",
+      "source_file": "src/components/layout/Header.tsx",
+      "icon_name": "Sliders",
+      "library": "lucide-react",
+      "rendered_element": "Settings & Calls trigger button",
+      "expected_mobile_visibility": "Visible in header right action zone",
+      "actual_status": "CROWDED_HORIZONTAL_OVERFLOW_RISK",
+      "issue_notes": "On narrow screens, pushed off right edge if navTabs take up space."
+    },
+    {
+      "component": "Header",
+      "source_file": "src/components/layout/Header.tsx",
+      "icon_name": "LogOut",
+      "library": "lucide-react",
+      "rendered_element": "Sign out button",
+      "expected_mobile_visibility": "Visible in header right action zone",
+      "actual_status": "CROWDED_HORIZONTAL_OVERFLOW_RISK",
+      "issue_notes": "Pushed offscreen on <=360px viewports."
+    },
+    {
+      "component": "Header (Middle Nav Bar)",
+      "source_file": "src/components/layout/Header.tsx",
+      "icon_name": "MessageSquare, Phone, Share2, HardDrive, Bookmark",
+      "library": "lucide-react",
+      "rendered_element": "Header center navigation tabs (navTabs)",
+      "expected_mobile_visibility": "Should either be hidden on mobile or compact",
+      "actual_status": "REDUNDANT_AND_OVERCROWDING",
+      "issue_notes": "Header renders these 5 icons in a scrollable bar (max-w-[280px]) simultaneously with the Mobile Bottom Bar in App.tsx! On mobile, having two simultaneous navigation bars consumes 128px of vertical space and causes horizontal collision in the header."
+    },
+    {
+      "component": "ConversationList",
+      "source_file": "src/components/chat/ConversationList.tsx",
+      "icon_name": "Search",
+      "library": "lucide-react",
+      "rendered_element": "Quick filter input magnifying glass",
+      "expected_mobile_visibility": "Visible in search input left side",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "ConversationList",
+      "source_file": "src/components/chat/ConversationList.tsx",
+      "icon_name": "Plus",
+      "library": "lucide-react",
+      "rendered_element": "New conversation trigger button",
+      "expected_mobile_visibility": "Visible next to search input",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "ConversationList",
+      "source_file": "src/components/chat/ConversationList.tsx",
+      "icon_name": "MoreVertical",
+      "library": "lucide-react",
+      "rendered_element": "Conversation row 3-dots action trigger",
+      "expected_mobile_visibility": "Expected to be accessible to user",
+      "actual_status": "CONFIRMED_INVISIBLE_ON_MOBILE",
+      "issue_notes": "CONFIRMED BUG: Styled with 'opacity-0 group-hover:opacity-100'. On mobile touchscreens, there is NO mouse hover state, meaning touch users can NEVER see or tap this button to Pin, Mute, or Archive a chat!"
+    },
+    {
+      "component": "ConversationList",
+      "source_file": "src/components/chat/ConversationList.tsx",
+      "icon_name": "Pin, VolumeX, Archive",
+      "library": "lucide-react",
+      "rendered_element": "Popover menu options for Pin/Mute/Archive",
+      "expected_mobile_visibility": "Visible once MoreVertical is opened",
+      "actual_status": "INACCESSIBLE_ON_MOBILE_DUE_TO_HOVER_GATE",
+      "issue_notes": "Cannot be reached on mobile because MoreVertical trigger has opacity-0 without touch alternative."
+    },
+    {
+      "component": "ConversationList",
+      "source_file": "src/components/chat/ConversationList.tsx",
+      "icon_name": "ImageIcon, Video, Mic, FileText",
+      "library": "lucide-react",
+      "rendered_element": "Last message preview type icon",
+      "expected_mobile_visibility": "Visible in conversation subtitle preview",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "ConversationList",
+      "source_file": "src/components/chat/ConversationList.tsx",
+      "icon_name": "Check, CheckCheck",
+      "library": "lucide-react",
+      "rendered_element": "Sent/Read delivery tick on last message",
+      "expected_mobile_visibility": "Visible before message preview",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "StatusTray",
+      "source_file": "src/components/status/StatusTray.tsx",
+      "icon_name": "Plus",
+      "library": "lucide-react",
+      "rendered_element": "Add story plus badge on user avatar",
+      "expected_mobile_visibility": "Visible bottom-right of avatar bubble",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "Small touch target (w-4 h-4 / 16px); difficult to hit on mobile without triggering story viewer."
+    },
+    {
+      "component": "ChatArea (Header)",
+      "source_file": "src/components/chat/ChatArea.tsx",
+      "icon_name": "ArrowLeft",
+      "library": "lucide-react",
+      "rendered_element": "Mobile Back button to return to chat list",
+      "expected_mobile_visibility": "Visible on mobile (<768px / md:hidden)",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "Functional on mobile; hidden on desktop as intended."
+    },
+    {
+      "component": "ChatArea (Header)",
+      "source_file": "src/components/chat/ChatArea.tsx",
+      "icon_name": "Phone",
+      "library": "lucide-react",
+      "rendered_element": "Start audio call button",
+      "expected_mobile_visibility": "Visible in chat header top right",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "ChatArea (Header)",
+      "source_file": "src/components/chat/ChatArea.tsx",
+      "icon_name": "Video",
+      "library": "lucide-react",
+      "rendered_element": "Start video call button",
+      "expected_mobile_visibility": "Visible in chat header top right",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "ChatArea (Header)",
+      "source_file": "src/components/chat/ChatArea.tsx",
+      "icon_name": "Search",
+      "library": "lucide-react",
+      "rendered_element": "In-chat search toggle button",
+      "expected_mobile_visibility": "Direct icon on desktop; inside MoreVertical menu on mobile",
+      "actual_status": "CONDITIONALLY_HIDDEN_DESKTOP_ONLY",
+      "issue_notes": "Uses 'hidden sm:flex'. Hidden directly on mobile header; available via MoreVertical dropdown."
+    },
+    {
+      "component": "ChatArea (Header)",
+      "source_file": "src/components/chat/ChatArea.tsx",
+      "icon_name": "FolderOpen",
+      "library": "lucide-react",
+      "rendered_element": "Shared media gallery drawer button",
+      "expected_mobile_visibility": "Direct icon on desktop; inside MoreVertical menu on mobile",
+      "actual_status": "CONDITIONALLY_HIDDEN_DESKTOP_ONLY",
+      "issue_notes": "Uses 'hidden sm:flex'. Hidden directly on mobile header; available via MoreVertical dropdown."
+    },
+    {
+      "component": "ChatArea (Header)",
+      "source_file": "src/components/chat/ChatArea.tsx",
+      "icon_name": "MoreVertical",
+      "library": "lucide-react",
+      "rendered_element": "Mobile chat options overflow button",
+      "expected_mobile_visibility": "Visible on mobile (<640px / sm:hidden)",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "ChatArea (Composer)",
+      "source_file": "src/components/chat/ChatArea.tsx",
+      "icon_name": "Paperclip",
+      "library": "lucide-react",
+      "rendered_element": "File attachment button",
+      "expected_mobile_visibility": "Visible left of message input",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "ChatArea (Composer)",
+      "source_file": "src/components/chat/ChatArea.tsx",
+      "icon_name": "Smile",
+      "library": "lucide-react",
+      "rendered_element": "Emoji / Sticker / GIF popover button",
+      "expected_mobile_visibility": "Visible left of message input",
+      "actual_status": "POPOVER_CLIPPING_BUG_ON_MOBILE",
+      "issue_notes": "CONFIRMED BUG: Popover (StickerGifPicker) has fixed w-80 (320px) or sm:w-96 (384px) with 'absolute bottom-20 left-2'. On 320px–360px viewports, the picker overflows the right screen edge and is clipped. Furthermore, opening mobile software keyboard hides or pushes the picker offscreen."
+    },
+    {
+      "component": "ChatArea (Composer)",
+      "source_file": "src/components/chat/ChatArea.tsx",
+      "icon_name": "Send",
+      "library": "lucide-react",
+      "rendered_element": "Send message button",
+      "expected_mobile_visibility": "Visible when inputText is non-empty",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "ChatArea (Composer)",
+      "source_file": "src/components/chat/ChatArea.tsx",
+      "icon_name": "Mic",
+      "library": "lucide-react",
+      "rendered_element": "Start voice recording button",
+      "expected_mobile_visibility": "Visible when input is empty",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "ChatArea (Composer)",
+      "source_file": "src/components/chat/ChatArea.tsx",
+      "icon_name": "Check",
+      "library": "lucide-react",
+      "rendered_element": "Save edited message button",
+      "expected_mobile_visibility": "Visible when editingMessage is active",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "MessageItem",
+      "source_file": "src/components/chat/MessageItem.tsx",
+      "icon_name": "Smile (Quick React)",
+      "library": "lucide-react",
+      "rendered_element": "Hover/Context quick reaction trigger",
+      "expected_mobile_visibility": "Expected to allow mobile users to react",
+      "actual_status": "CONFIRMED_INVISIBLE_ON_MOBILE",
+      "issue_notes": "CRITICAL CONFIRMED BUG: Styled with 'opacity-0 group-hover:opacity-100 focus-within:opacity-100'. On mobile touch devices, messages do NOT receive hover events. Therefore, mobile users CANNOT see or tap the Smile icon or MoreVertical icon on messages! Reactions, reply, copy, edit, and delete are completely inaccessible on mobile without hover."
+    },
+    {
+      "component": "MessageItem",
+      "source_file": "src/components/chat/MessageItem.tsx",
+      "icon_name": "MoreVertical (Message Options)",
+      "library": "lucide-react",
+      "rendered_element": "Hover/Context message actions trigger (Reply, Edit, Delete)",
+      "expected_mobile_visibility": "Expected to allow message actions on mobile",
+      "actual_status": "CONFIRMED_INVISIBLE_ON_MOBILE",
+      "issue_notes": "CRITICAL CONFIRMED BUG: Same as above ('opacity-0 group-hover:opacity-100'). On mobile screens, the button is rendered with zero opacity and cannot be touched by users."
+    },
+    {
+      "component": "MessageItem",
+      "source_file": "src/components/chat/MessageItem.tsx",
+      "icon_name": "Reply, Copy, Edit2, Trash2",
+      "library": "lucide-react",
+      "rendered_element": "Context menu action buttons",
+      "expected_mobile_visibility": "Visible inside context menu",
+      "actual_status": "INACCESSIBLE_ON_MOBILE_DUE_TO_HOVER_GATE",
+      "issue_notes": "Inaccessible on touchscreens because parent trigger is hidden behind group-hover."
+    },
+    {
+      "component": "MessageItem",
+      "source_file": "src/components/chat/MessageItem.tsx",
+      "icon_name": "Check, CheckCheck",
+      "library": "lucide-react",
+      "rendered_element": "Sent / Read receipt ticks inside bubble",
+      "expected_mobile_visibility": "Visible bottom right of outgoing message bubble",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "MessageItem",
+      "source_file": "src/components/chat/MessageItem.tsx",
+      "icon_name": "AlertCircle",
+      "library": "lucide-react",
+      "rendered_element": "Failed message retry indicator",
+      "expected_mobile_visibility": "Visible when message send fails",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "VoiceRecorder",
+      "source_file": "src/components/chat/VoiceRecorder.tsx",
+      "icon_name": "Trash2",
+      "library": "lucide-react",
+      "rendered_element": "Discard recording button",
+      "expected_mobile_visibility": "Visible during voice recording",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "VoiceRecorder",
+      "source_file": "src/components/chat/VoiceRecorder.tsx",
+      "icon_name": "Square",
+      "library": "lucide-react",
+      "rendered_element": "Stop recording button",
+      "expected_mobile_visibility": "Visible while recording is active",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "VoiceRecorder",
+      "source_file": "src/components/chat/VoiceRecorder.tsx",
+      "icon_name": "Play, Pause",
+      "library": "lucide-react",
+      "rendered_element": "Preview recorded voice button",
+      "expected_mobile_visibility": "Visible after recording stopped",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "VoiceRecorder",
+      "source_file": "src/components/chat/VoiceRecorder.tsx",
+      "icon_name": "Send",
+      "library": "lucide-react",
+      "rendered_element": "Send recorded voice note button",
+      "expected_mobile_visibility": "Visible when recording is ready",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "AudioPlayer",
+      "source_file": "src/components/chat/AudioPlayer.tsx",
+      "icon_name": "Play, Pause",
+      "library": "lucide-react",
+      "rendered_element": "Play/Pause audio toggle button",
+      "expected_mobile_visibility": "Visible inside audio message bubble",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "CallModal",
+      "source_file": "src/components/calling/CallModal.tsx",
+      "icon_name": "PhoneOff",
+      "library": "lucide-react",
+      "rendered_element": "Decline call button / End call button",
+      "expected_mobile_visibility": "Visible in incoming banner and active call dock",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "CallModal",
+      "source_file": "src/components/calling/CallModal.tsx",
+      "icon_name": "Phone, Video",
+      "library": "lucide-react",
+      "rendered_element": "Accept incoming call buttons",
+      "expected_mobile_visibility": "Visible during ringing state",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "CallModal",
+      "source_file": "src/components/calling/CallModal.tsx",
+      "icon_name": "Mic, MicOff",
+      "library": "lucide-react",
+      "rendered_element": "Mute/Unmute microphone button in dock",
+      "expected_mobile_visibility": "Visible in active call dock",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "CallModal",
+      "source_file": "src/components/calling/CallModal.tsx",
+      "icon_name": "VideoOff",
+      "library": "lucide-react",
+      "rendered_element": "Toggle camera button in dock",
+      "expected_mobile_visibility": "Visible during video calls in dock",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "CallModal",
+      "source_file": "src/components/calling/CallModal.tsx",
+      "icon_name": "Maximize2, Minimize2",
+      "library": "lucide-react",
+      "rendered_element": "Fullscreen toggle in top right header",
+      "expected_mobile_visibility": "Visible in top right header",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "SettingsModal",
+      "source_file": "src/components/settings/SettingsModal.tsx",
+      "icon_name": "User, Phone, Shield, FileText, Bell, Palette, Globe, UserX",
+      "library": "lucide-react",
+      "rendered_element": "Settings category tab buttons",
+      "expected_mobile_visibility": "Visible in mobile top scrollable tab bar",
+      "actual_status": "PARTIAL_CLIPPING_HORIZONTAL_BAR",
+      "issue_notes": "On mobile screens, 8 tabs in a flex row without visible scroll indicators causes trailing tabs (Appearance, Language, Blocked) to be cut off unless scrolled."
+    },
+    {
+      "component": "SocialFeedView",
+      "source_file": "src/components/social/SocialFeedView.tsx",
+      "icon_name": "Heart",
+      "library": "lucide-react",
+      "rendered_element": "Like post button",
+      "expected_mobile_visibility": "Visible on post card footer",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "SocialFeedView",
+      "source_file": "src/components/social/SocialFeedView.tsx",
+      "icon_name": "MessageCircle",
+      "library": "lucide-react",
+      "rendered_element": "Comments toggle button",
+      "expected_mobile_visibility": "Visible on post card footer",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "SocialFeedView",
+      "source_file": "src/components/social/SocialFeedView.tsx",
+      "icon_name": "Share2",
+      "library": "lucide-react",
+      "rendered_element": "Share post button",
+      "expected_mobile_visibility": "Visible on post card footer",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "UniversalDriveView",
+      "source_file": "src/components/drive/UniversalDriveView.tsx",
+      "icon_name": "Upload",
+      "library": "lucide-react",
+      "rendered_element": "Upload file button in header",
+      "expected_mobile_visibility": "Visible top right",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    },
+    {
+      "component": "MessageCapsuleView",
+      "source_file": "src/components/capsule/MessageCapsuleView.tsx",
+      "icon_name": "Plus",
+      "library": "lucide-react",
+      "rendered_element": "New capsule item button",
+      "expected_mobile_visibility": "Visible in header",
+      "actual_status": "RENDERED_NORMAL",
+      "issue_notes": "None"
+    }
+  ],
+  "responsive_rules": {
+    "viewport_breakdown": {
+      "320x568": {
+        "device_category": "Ultra-small mobile (iPhone SE 1st gen)",
+        "layout_assessment": "SEVERE CROWDING. Header navigation tabs (max-w-[280px]) collide with brand logo and right-hand action icons (Search, QR, Bell, Settings, Avatar, Logout). Stacking or overflow causes icons to be pushed offscreen. Bottom nav bar occupies 64px, Header occupies 64px, leaving only 440px for chat content."
+      },
+      "360x800": {
+        "device_category": "Standard Android mobile (Samsung Galaxy A-series)",
+        "layout_assessment": "MODERATE CROWDING. Header right action icons overflow if middle nav tabs are present. Chat message action triggers (Smile, MoreVertical) remain completely invisible because touchscreen does not fire mouse hover."
+      },
+      "375x812": {
+        "device_category": "Standard iOS mobile (iPhone X/11/12 mini)",
+        "layout_assessment": "MODERATE CROWDING. Safe area insets (env(safe-area-inset-bottom)) partially absorbed by ChatArea composer, but bottom mobile nav bar adds an additional fixed 64px at bottom, reducing chat reading area."
+      },
+      "390x844": {
+        "device_category": "Modern iOS mobile (iPhone 13/14/15)",
+        "layout_assessment": "FUNCTIONAL WITH BUGS. Primary mobile bugs remain: message actions (Reply/Edit/React) invisible due to group-hover; ConversationList 3-dots invisible due to group-hover; dual navigation bars (Header navTabs + Bottom nav bar)."
+      },
+      "430x932": {
+        "device_category": "Large iOS mobile (iPhone 14/15/16 Pro Max)",
+        "layout_assessment": "FUNCTIONAL WITH BUGS. Width allows Header icons to fit with less clipping, but hover-gated buttons remain completely invisible."
+      },
+      "768x1024": {
+        "device_category": "Tablet portrait (iPad)",
+        "layout_assessment": "DUAL PANE TRANSITION. At md breakpoint (768px), sidebar (w-80) and ChatArea render side-by-side. Mobile bottom nav bar disappears (md:hidden). Header nav bar switches to full text labels (hidden md:inline)."
+      },
+      "1366x768": {
+        "device_category": "Desktop / Laptop",
+        "layout_assessment": "DESKTOP MODE. Hover triggers function normally via mouse cursor. Side-by-side layout works smoothly."
+      }
+    }
+  },
+  "confirmed_bugs": [
+    {
+      "bug_id": "BUG-001",
+      "title": "Message context action icons (Smile reaction & MoreVertical menu) are completely invisible and unusable on mobile touchscreens",
+      "severity": "CRITICAL",
+      "affected_devices": "All mobile and tablet touch devices (<1024px)",
+      "component": "MessageItem",
+      "source_file": "src/components/chat/MessageItem.tsx",
+      "lines": "371-394",
+      "evidence": "className=\"opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity flex items-center gap-0.5\"",
+      "root_cause": "The hover trigger relies on CSS ':hover' which does not trigger on mobile touchscreens without active tap selection. Touch users cannot see the reaction button or the options menu (Reply, Edit, Copy, Delete).",
+      "impact": "Users on mobile cannot react to messages, reply to messages, edit their own messages, copy message text, or delete messages."
+    },
+    {
+      "bug_id": "BUG-002",
+      "title": "Conversation list row options menu button (MoreVertical) is invisible on mobile touchscreens",
+      "severity": "HIGH",
+      "affected_devices": "All mobile touch devices (<768px)",
+      "component": "ConversationList",
+      "source_file": "src/components/chat/ConversationList.tsx",
+      "lines": "297-307",
+      "evidence": "className=\"opacity-0 group-hover:opacity-100 p-1 text-neutral-400 hover:text-neutral-700 dark:hover:text-white rounded transition-opacity cursor-pointer\"",
+      "root_cause": "The 3-dots button is hidden behind 'opacity-0 group-hover:opacity-100'. On mobile, group hover never triggers because clicking the row immediately opens the conversation.",
+      "impact": "Mobile users cannot access the Pin Chat, Mute Notifications, or Archive Chat actions."
+    },
+    {
+      "bug_id": "BUG-003",
+      "title": "Dual redundant navigation bars on mobile consuming excessive vertical screen space and causing header icon overflow",
+      "severity": "HIGH",
+      "affected_devices": "Mobile screens (<768px, especially 320px–390px)",
+      "component": "Header & App",
+      "source_file": "src/components/layout/Header.tsx & src/App.tsx",
+      "lines": "Header.tsx: 70-91 & App.tsx: 177-196",
+      "evidence": "Header.tsx renders navTabs (MessageSquare, Phone, Share2, HardDrive, Bookmark) inside header even on mobile. Simultaneously, App.tsx renders the exact same 5 tabs in a fixed bottom nav bar (<nav className=\"md:hidden h-16...\">).",
+      "root_cause": "Header navTabs are not hidden on mobile (<md). They take up to 280px of horizontal space in the 64px header, forcing header utility icons (Search, QR, Bell, Settings, Avatar, Logout) to overflow or get compressed.",
+      "impact": "Header utility icons get clipped or overflow the viewport; screen loses 128px of vertical height to two identical sets of navigation buttons."
+    },
+    {
+      "bug_id": "BUG-004",
+      "title": "Mobile bottom navigation bar remains visible while inside an active chat screen",
+      "severity": "MEDIUM",
+      "affected_devices": "All mobile screens (<768px)",
+      "component": "App Content & ChatLayout",
+      "source_file": "src/App.tsx & src/components/chat/ChatLayout.tsx",
+      "lines": "App.tsx: 177-196",
+      "evidence": "Bottom nav bar is unconditionally rendered whenever 'user' is truthy and viewport is md:hidden, regardless of whether a conversation is actively open (selectedConversationId != null).",
+      "root_cause": "App.tsx does not check if an active conversation is open in ChatLayout before showing the bottom navigation bar.",
+      "impact": "The bottom navigation bar takes up 64px directly below the chat input dock, severely restricting the visible chat message area and conflicting with mobile virtual keyboards."
+    },
+    {
+      "bug_id": "BUG-005",
+      "title": "Emoji / Sticker / GIF picker popover horizontal clipping on mobile viewports (<390px)",
+      "severity": "MEDIUM",
+      "affected_devices": "Mobile viewports 320px–375px",
+      "component": "StickerGifPicker & ChatArea",
+      "source_file": "src/components/chat/StickerGifPicker.tsx & src/components/chat/ChatArea.tsx",
+      "lines": "StickerGifPicker.tsx: 216-218 & ChatArea.tsx: 1224-1236",
+      "evidence": "StickerGifPicker has fixed width 'w-80' (320px) and 'left-2 sm:left-4'. On a 320px screen, 320px + left-2 (8px) = 328px, causing 8px-16px of horizontal overflow off the right edge.",
+      "root_cause": "Fixed width 'w-80' without 'w-[calc(100vw-1rem)]' responsive constraint.",
+      "impact": "The close button (X) and right-column stickers/GIFs are partially clipped outside the screen."
+    },
+    {
+      "bug_id": "BUG-006",
+      "title": "Notification dropdown width overflow on 320px–360px mobile viewports",
+      "severity": "MEDIUM",
+      "affected_devices": "Mobile viewports <=360px",
+      "component": "NotificationBell",
+      "source_file": "src/components/notifications/NotificationBell.tsx",
+      "lines": "117",
+      "evidence": "className=\"absolute right-0 mt-2 w-80 sm:w-96 ...\"",
+      "root_cause": "Fixed 'w-80' (320px). On a 320px screen with right-0, if the bell icon has right margin or padding, the dropdown overflows the left edge of the viewport.",
+      "impact": "Left side of notifications modal is cut off on ultra-small mobile screens."
+    }
+  ],
+  "potential_bugs": [
+    {
+      "potential_bug_id": "POT-001",
+      "title": "SettingsModal horizontal tab bar has no scroll cue on narrow screens",
+      "component": "SettingsModal",
+      "source_file": "src/components/settings/SettingsModal.tsx",
+      "lines": "480-518",
+      "description": "On mobile, 8 tabs are rendered in an overflow-x-auto flex row. Tabs 6, 7, and 8 (Appearance, Language, Blocked) are completely hidden past the screen edge with no arrow or gradient indicator to show they are scrollable."
+    },
+    {
+      "potential_bug_id": "POT-002",
+      "title": "CallModal in-call dock overlapping mobile navigation bar if not full-screen z-index covered",
+      "component": "CallModal",
+      "source_file": "src/components/calling/CallModal.tsx",
+      "lines": "420",
+      "description": "Dock has 'absolute bottom-6'. While CallModal has z-50, on devices with home indicator bars (iOS safe-area-inset-bottom), dock controls can sit too close to bottom edge without safe-area padding."
+    },
+    {
+      "potential_bug_id": "POT-003",
+      "title": "VoiceRecorder waveform and timer crowding on 320px viewports",
+      "component": "VoiceRecorder",
+      "source_file": "src/components/chat/VoiceRecorder.tsx",
+      "lines": "210-245",
+      "description": "Waveform uses 'hidden sm:flex', which correctly protects mobile space, but timer and stop button can crowd discard button on 320px screens if recording duration exceeds 3 digits."
+    }
+  ],
+  "testing_results": {
+    "testing_environment": "Linux headless environment without installed Chrome/Playwright browser binary",
+    "screenshot_capability": "UNAVAILABLE (No headless browser CLI detected; static code & AST inspection performed strictly)",
+    "viewport_inspection_summary": {
+      "320x568": "FAIL - Header items overflow; Message actions invisible; Popovers clip",
+      "360x800": "FAIL - Message actions invisible; Conversation options invisible; Redundant double nav bars",
+      "375x812": "FAIL - Message actions invisible; Conversation options invisible; Redundant double nav bars",
+      "390x844": "FAIL - Message actions invisible; Conversation options invisible; Redundant double nav bars",
+      "430x932": "FAIL - Message actions invisible; Conversation options invisible; Redundant double nav bars",
+      "768x1024": "PARTIAL PASS - Tablet side-by-side active; touch action discovery still impaired by hover gates",
+      "1366x768": "PASS - Desktop mouse hover works for all group-hover triggers"
+    }
+  },
+  "files_to_inspect": [
+    "src/components/chat/MessageItem.tsx",
+    "src/components/chat/ConversationList.tsx",
+    "src/components/layout/Header.tsx",
+    "src/App.tsx",
+    "src/components/chat/ChatArea.tsx",
+    "src/components/chat/StickerGifPicker.tsx",
+    "src/components/notifications/NotificationBell.tsx",
+    "src/components/settings/SettingsModal.tsx"
+  ],
+  "recommended_fixes": [
+    {
+      "target_file": "src/components/chat/MessageItem.tsx",
+      "recommendation": "Provide mobile-accessible message actions. Either make the action trigger visible on mobile touch devices (e.g. 'opacity-100 sm:opacity-0 sm:group-hover:opacity-100') or implement a long-press / tap gesture on the message bubble to display the reaction and action sheet on mobile."
+    },
+    {
+      "target_file": "src/components/chat/ConversationList.tsx",
+      "recommendation": "Make the 3-dots options menu icon visible on mobile ('opacity-100 sm:opacity-0 sm:group-hover:opacity-100') or allow swipe / long-press on conversation items to access Pin/Mute/Archive."
+    },
+    {
+      "target_file": "src/components/layout/Header.tsx",
+      "recommendation": "Hide the middle navTabs in Header on mobile screens by adding 'hidden md:flex' to the navTabs container, since the Mobile Bottom Navigation Bar already serves this purpose. This immediately frees up ~280px in the header, resolving all clipping and overflow for Search, QR, Bell, Settings, and Profile icons."
+    },
+    {
+      "target_file": "src/App.tsx",
+      "recommendation": "Hide the mobile bottom navigation bar when inside an active conversation (e.g. pass an isChatOpen state or hide bottom nav when selectedConversationId is set), maximizing screen real-estate for messaging."
+    },
+    {
+      "target_file": "src/components/chat/StickerGifPicker.tsx",
+      "recommendation": "Replace fixed 'w-80' with 'w-[calc(100vw-1.5rem)] sm:w-96 max-w-sm' to guarantee the picker never exceeds screen width on 320px–360px phones."
+    },
+    {
+      "target_file": "src/components/notifications/NotificationBell.tsx",
+      "recommendation": "Update dropdown width to 'w-[calc(100vw-2rem)] sm:w-96 max-w-sm right-0 sm:right-0' to avoid left clipping on narrow viewports."
+    }
+  ]
+}

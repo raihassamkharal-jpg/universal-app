@@ -1,0 +1,8 @@
+{
+  "name": "Remix Remix Remix Local Message Hub",
+  "description": "Modern international username-based real-time messaging platform inspired by the simplicity of WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
